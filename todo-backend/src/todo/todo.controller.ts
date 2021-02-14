@@ -16,8 +16,8 @@ export class TodoController {
   }
 
   @Post()
-  async insert(@Body() body: CreateTodoDTO): Promise<InsertResult> {
-    return this.todoService.create(body);
+  async insert(@Body() body: CreateTodoDTO): Promise<void> {
+    this.todoService.create(body);
   }
 
   @Patch('/:id')
