@@ -12,7 +12,7 @@ export default function TodoList(){
   if (!data) return <div>loading...</div>
   
   return (
-    <div className="border-2 flex-column">
+    <div className="border-2 flex-column px-4 py-2">
       <h2 className="text-center">My Todo List</h2>
       {data.map(e => (
         <TodoItem title={e.title} id={e.id}/>

@@ -16,10 +16,10 @@ export default function TodoItem({title, id}: TodoItemProps){
   }
 
   return (
-    <div className="flex flex-row items-center ma-2">
+    <div className="flex flex-row items-center my-2">
       <span className="flex-grow">{title}</span>
-      <input type="checkbox"/>
-      <button onClick={deleteTodoItem} className="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded">Delete</button>
+      <input type="checkbox" className="mx-2"/>
+      <button onClick={deleteTodoItem} className="bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded">Delete</button>
     </div>
   )
 }
