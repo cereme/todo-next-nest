@@ -7,7 +7,6 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { InsertResult } from 'typeorm';
 import { CreateTodoDTO } from './dto/create-todo.dto';
 import { UpdateTodoDTO } from './dto/update-todo.dto';
 import { Todo } from './todo.entity';
@@ -25,7 +24,7 @@ export class TodoController {
 
   @Post()
   async insert(@Body() body: CreateTodoDTO): Promise<void> {
-    this.todoService.create(body);
+    await this.todoService.create(body);
   }
 
   @Patch('/:id')
@@ -38,6 +37,6 @@ export class TodoController {
 
   @Delete('/:id')
   async deleteOne(@Param('id') id: number): Promise<void> {
-    this.todoService.delete(id);
+    await this.todoService.delete(id);
   }
 }
