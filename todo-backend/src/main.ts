@@ -11,6 +11,7 @@ async function bootstrap() {
       transform: true, // 클라이언트에서 값을 받자마자 타입을 정의한대로 자동 형변환을 합니다.
     }),
   );
-  await app.listen(3000);
+  app.enableCors();
+  await app.listen(7000);
 }
 bootstrap();
