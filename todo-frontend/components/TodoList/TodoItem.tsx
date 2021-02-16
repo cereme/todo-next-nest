@@ -13,6 +13,9 @@ export default function TodoItem({title, id, description}: TodoItemProps){
   const [editable, setEditable] = useState(false);
   const [editedDescription, setEditedDescription] = useState(description);
 
+  const exitEditMode = () => setEditable(false);
+  const enterEditMode = () => setEditable(true);
+
   const deleteTodoItem = async () => {
     mutate("/todo", data => data.filter(e => e.id !== id), false);
     await axios.delete(`/todo/${id}`);
@@ -23,13 +26,14 @@ export default function TodoItem({title, id, description}: TodoItemProps){
     mutate("/todo", data => data.map(e => e.id !== id ? e : {...e, description: editedDescription}), false);
     await axios.patch(`/todo/${id}`, {description: editedDescription});
     mutate("/todo");
-    setEditable(false);
+    exitEditMode();
   };
   const updateEditedDescription = e => setEditedDescription(e.target.value);
 
-  const toggleAccordion = () => setExpanded(v => !v);
-  const exitEditMode = () => setEditable(false);
-  const enterEditMode = () => setEditable(true);
+  const toggleAccordion = () => {
+    setExpanded(v => !v)
+    exitEditMode();
+  };
 
   return (
     <>
