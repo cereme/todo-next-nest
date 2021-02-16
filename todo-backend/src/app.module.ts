@@ -4,9 +4,10 @@ import { AppService } from './app.service';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TodoModule } from './todo/todo.module';
+import { UserModule } from './user/user.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), TodoModule],
+  imports: [TypeOrmModule.forRoot(), TodoModule, UserModule],
   controllers: [AppController],
   providers: [AppService],
 })
