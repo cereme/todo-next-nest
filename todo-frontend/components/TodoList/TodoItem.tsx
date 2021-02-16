@@ -1,3 +1,4 @@
+import axios from "axios";
 import { mutate } from "swr";
 
 export type TodoItemProps = {
@@ -9,9 +10,7 @@ export default function TodoItem({title, id}: TodoItemProps){
 
   const deleteTodoItem = async () => {
     mutate("/todo", data => data.filter(e => e.id !== id), false);
-    await fetch(`http://localhost:7000/todo/${id}`,{
-      method: "DELETE"
-    });
+    await axios.delete(`/todo/${id}`);
     mutate("/todo");
   }
 
