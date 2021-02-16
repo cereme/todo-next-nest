@@ -10,6 +10,8 @@ export type TodoItemProps = {
 
 export default function TodoItem({title, id, description}: TodoItemProps){
   const [expanded, setExpanded] = useState(false);
+  const [editable, setEditable] = useState(false);
+  const [editedDescription, setEditedDescription] = useState(description);
 
   const deleteTodoItem = async () => {
     mutate("/todo", data => data.filter(e => e.id !== id), false);
@@ -17,19 +19,44 @@ export default function TodoItem({title, id, description}: TodoItemProps){
     mutate("/todo");
   }
 
+  const submitDescription = async () => {
+    mutate("/todo", data => data.map(e => e.id !== id ? e : {...e, description: editedDescription}), false);
+    await axios.patch(`/todo/${id}`, {description: editedDescription});
+    mutate("/todo");
+    setEditable(false);
+  };
+  const updateEditedDescription = e => setEditedDescription(e.target.value);
+
   const toggleAccordion = () => setExpanded(v => !v);
+  const exitEditMode = () => setEditable(false);
+  const enterEditMode = () => setEditable(true);
 
   return (
     <>
       <div className="flex flex-row items-center my-2 px-2 py-2 bg-gray-100 shadow">
         <span className="flex-grow" onClick={toggleAccordion}>{title}</span>
-        <input type="checkbox" className="mx-2"/>
-        <button onClick={deleteTodoItem} className="bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded">Delete</button>
+        { editable &&
+        <>
+          <button onClick={submitDescription} className="bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 ml-2 rounded">submit</button>
+          <button onClick={exitEditMode} className="bg-red-500 hover:bg-red-700 text-white py-1 px-2 ml-2 rounded">cancel</button>
+        </>
+        }
+        { !editable &&
+        <>
+          <input type="checkbox" className="mx-2"/>
+          <button onClick={deleteTodoItem} className="bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded">Delete</button>
+        </>
+        }
       </div>
-      <div className={`transition-all ease-in duration-500 ${expanded ? "": "hidden"}`}>
-        <p className={`inline-block truncate}`}>
-          {description}
-        </p>
+      <div className={`mb-2 ${expanded ? "": "hidden"}`}>
+        { editable &&
+          <textarea value={editedDescription} onChange={updateEditedDescription} className={`inline-block w-full`}/>
+        }
+        { !editable &&
+          <p onClick={enterEditMode} className={`inline-block hover:bg-gray-300 w-full ${description ? "" : "text-gray-400"}`}>
+            { description || "무언가를 입력해봐요" }
+          </p>
+        }
       </div>
     </>
   )
