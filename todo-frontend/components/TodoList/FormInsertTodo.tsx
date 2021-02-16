@@ -5,6 +5,7 @@ import { mutate } from "swr";
 export default function FormInsertTodo(){
   const [todoTitle, setTodoTitle] = useState("");
   const postTodoItem = async () => {
+    mutate("/todo", data => [...data, {title: todoTitle, id: -1}], false);
     await axios.post("http://localhost:7000/todo", {title: todoTitle});
     mutate("/todo");
     setTodoTitle("");
