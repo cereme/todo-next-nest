@@ -16,7 +16,7 @@ export default function TodoList(){
     <div className="border-2 flex-column px-4 py-2">
       <h2 className="text-center">My Todo List</h2>
       {data.map(e => (
-        <TodoItem title={e.title} id={e.id} key={e.id}/>
+        <TodoItem title={e.title} id={e.id} key={e.id} description={e.description}/>
       ))}
       <FormInsertTodo/>
     </div>
