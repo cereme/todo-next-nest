@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum AuthType {
-  Basic = 'BASIC',
+  Local = 'LOCAL',
   Google = 'GOOGLE',
   Kakao = 'KAKAO',
   Naver = 'NAVER',

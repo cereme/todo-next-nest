@@ -1,7 +1,7 @@
 import { Equals, IsEmail, IsString } from 'class-validator';
 import { AuthType } from '../user.entity';
 
-export class BasicRegisterDTO {
+export class LocalRegisterDTO {
   @IsEmail()
   email: string;
 
@@ -11,6 +11,6 @@ export class BasicRegisterDTO {
   @IsString()
   username: string;
 
-  @Equals(AuthType.Basic)
+  @Equals(AuthType.Local)
   auth_type: AuthType;
 }

@@ -1,13 +1,13 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { BasicRegisterDTO } from './dto/basic-register.dto';
+import { LocalRegisterDTO } from './dto/local-register.dto';
 import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @Post('/basic')
-  async basicRegister(@Body() dto: BasicRegisterDTO): Promise<void> {
-    await this.userService.registerUserBasic(dto);
+  @Post('/local')
+  async localRegister(@Body() dto: LocalRegisterDTO): Promise<void> {
+    await this.userService.registerUserLocal(dto);
   }
 }
