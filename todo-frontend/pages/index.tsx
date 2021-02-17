@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import TodoList from "../components/TodoList"
-import { AuthContext } from "../components/TodoList/AuthContext"
+import { AuthContext } from "../components/AuthContext"
 
 export default function Home(): JSX.Element {
   const { authToken } = useContext(AuthContext)

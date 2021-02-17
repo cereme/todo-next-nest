@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 
 interface AuthContextValue {
   authToken?: string
@@ -13,7 +13,11 @@ const AuthContext = React.createContext<AuthContextValue>({
 })
 
 const AuthProvider = ({ children }): JSX.Element => {
-  const [authToken, setAuthToken] = useState(localStorage.getItem("authToken"))
+  const [authToken, setAuthToken] = useState(null)
+
+  useEffect(() => {
+    setAuthToken(localStorage.getItem("authToken"))
+  }, [])
 
   const value: AuthContextValue = {
     authToken,
