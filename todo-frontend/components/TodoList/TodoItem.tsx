@@ -1,5 +1,5 @@
 import axios from "axios"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { mutate } from "swr"
 
 export type TodoItemProps = {
@@ -9,9 +9,18 @@ export type TodoItemProps = {
 }
 
 export default function TodoItem({ title, id, description }: TodoItemProps): JSX.Element {
+  const accordionDescription = useRef(null)
+  const [descriptionHeight, setDescriptionHeight] = useState(0)
+
   const [expanded, setExpanded] = useState(false)
   const [editable, setEditable] = useState(false)
   const [editedDescription, setEditedDescription] = useState(description)
+
+  useEffect(() => {
+    if (accordionDescription.current) {
+      setDescriptionHeight(accordionDescription.current.scrollHeight)
+    }
+  }, [accordionDescription, editable])
 
   const exitEditMode = () => setEditable(false)
   const enterEditMode = () => setEditable(true)
@@ -73,7 +82,12 @@ export default function TodoItem({ title, id, description }: TodoItemProps): JSX
           </>
         )}
       </div>
-      <div className={`mb-2 ${expanded ? "" : "hidden"}`}>
+      <div
+        className={`transition-all duration-1000 mb-2`}
+        style={{
+          maxHeight: expanded ? descriptionHeight : 0,
+        }}
+      >
         {editable && (
           <textarea
             value={editedDescription}
@@ -83,10 +97,13 @@ export default function TodoItem({ title, id, description }: TodoItemProps): JSX
         )}
         {!editable && (
           <p
+            ref={accordionDescription}
             onClick={enterEditMode}
-            className={`inline-block hover:bg-gray-300 w-full ${
-              description ? "" : "text-gray-400"
-            }`}
+            className={`transition-all duration-1000 break-all overflow-hidden inline-block hover:bg-gray-300 w-full 
+            ${description ? "" : "text-gray-400"}`}
+            style={{
+              maxHeight: expanded ? descriptionHeight : 0,
+            }}
           >
             {description || "무언가를 입력해봐요"}
           </p>
