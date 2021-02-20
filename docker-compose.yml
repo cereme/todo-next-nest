@@ -1,14 +1,12 @@
 version: "3.0"
 services:
   db:
-    network_mode: host
     image: postgres
     environment:
       - POSTGRES_PASSWORD=root
     ports:
       - "5432:5432"
   backend-dev:
-    network_mode: host
     depends_on:
       - db
     build:
