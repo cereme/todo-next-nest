@@ -13,7 +13,7 @@ export class TodoService {
   ) {}
 
   findAll(): Promise<Todo[]> {
-    return this.todoRepository.find();
+    return this.todoRepository.find({ order: { id: 'ASC' } });
   }
 
   findOne(id: number): Promise<Todo> {
