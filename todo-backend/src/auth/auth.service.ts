@@ -1,7 +1,7 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
 import { JwtService } from '@nestjs/jwt';
-import { User } from 'src/user/user.entity';
+import { AuthType, User } from 'src/user/user.entity';
 import { JwtPayload } from './dto/jwt-payload.dto';
 
 @Injectable()
@@ -11,8 +11,9 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(email: string, password: string): Promise<any> {
+  async validateUserLocal(email: string, password: string): Promise<any> {
     const user = await this.userService.getUserByEmail(email);
+    // TODO: Use hashed password
     if (user && user.password === password) {
       const { password, ...result } = user;
       return result;
@@ -26,5 +27,26 @@ export class AuthService {
     return {
       access_token: this.jwtService.sign(payload),
     };
+  }
+
+  async validateUserGoogle(rawUser) {
+    if (!rawUser) {
+      return null;
+    }
+
+    let user = await this.userService.getUserByAuthId(rawUser.auth_id);
+
+    if (!user) {
+      await this.userService.registerUserSocial({
+        email: rawUser.email,
+        username: rawUser.username,
+        auth_id: rawUser.auth_id,
+        auth_type: AuthType.Google,
+      });
+    }
+
+    user = await this.userService.getUserByAuthId(rawUser.auth_id);
+
+    return user;
   }
 }

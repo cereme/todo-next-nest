@@ -10,4 +10,7 @@ DB_PORT=5432
 DB_USER=postgres
 DB_PASS=root
 DB_NAME=postgres
+OAUTH_GOOGLE_CLIENT_ID=<google-client-id>
+OAUTH_GOOGLE_SECRET=<google-secret>
+AUTH_REDIRECT_URL=http://localhost:3000/auth
 ```

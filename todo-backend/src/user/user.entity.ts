@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, Index } from 'typeorm';
 
 export enum AuthType {
   Local = 'LOCAL',
@@ -15,6 +15,7 @@ export class User {
   id: number;
 
   @Column({ nullable: true })
+  @Index({ unique: true, where: 'email IS NOT NULL' })
   email!: string;
 
   @Column({ nullable: true })
@@ -27,6 +28,7 @@ export class User {
   auth_type: AuthType;
 
   @Column({ nullable: true })
+  @Index({ unique: true, where: 'auth_id IS NOT NULL' })
   auth_id!: string;
 
   @Column({ type: 'timestamp', default: () => 'now()' })
