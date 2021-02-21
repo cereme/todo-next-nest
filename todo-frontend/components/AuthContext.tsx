@@ -1,9 +1,18 @@
 import React, { useEffect, useState } from "react"
 import jwt_decode from "jwt-decode"
 
+interface JwtInfo {
+  username: string
+  email: string
+  id: number
+  activated: boolean
+  iat: number
+  exp: number
+}
+
 interface AuthContextValue {
   authToken?: string
-  jwtInfo?: any
+  jwtInfo?: JwtInfo
   login: (token: string) => void
   logout: () => void
 }
