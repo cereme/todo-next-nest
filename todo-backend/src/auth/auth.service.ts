@@ -29,7 +29,7 @@ export class AuthService {
     };
   }
 
-  async validateUserGoogle(rawUser) {
+  async validateUserSocial(rawUser, authType: AuthType) {
     if (!rawUser) {
       return null;
     }
@@ -41,28 +41,7 @@ export class AuthService {
         email: rawUser.email,
         username: rawUser.username,
         auth_id: rawUser.auth_id,
-        auth_type: AuthType.Google,
-      });
-    }
-
-    user = await this.userService.getUserByAuthId(rawUser.auth_id);
-
-    return user;
-  }
-
-  async validateUserKakao(rawUser) {
-    if (!rawUser) {
-      return null;
-    }
-
-    let user = await this.userService.getUserByAuthId(rawUser.auth_id);
-
-    if (!user) {
-      await this.userService.registerUserSocial({
-        email: rawUser.email,
-        username: rawUser.username,
-        auth_id: rawUser.auth_id,
-        auth_type: AuthType.Kakao,
+        auth_type: authType,
       });
     }
 

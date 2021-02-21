@@ -33,7 +33,10 @@ export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
       accessToken,
     };
 
-    const user = await this.authService.validateUserGoogle(rawUser);
+    const user = await this.authService.validateUserSocial(
+      rawUser,
+      AuthType.Kakao,
+    );
 
     done(null, user);
   }

@@ -36,7 +36,10 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       accessToken,
     };
 
-    const user = await this.authService.validateUserGoogle(rawUser);
+    const user = await this.authService.validateUserSocial(
+      rawUser,
+      AuthType.Google,
+    );
 
     done(null, user);
   }
