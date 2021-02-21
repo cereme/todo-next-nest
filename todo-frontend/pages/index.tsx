@@ -3,6 +3,7 @@ import { LocalLoginForm } from "../components/Auth/LocalLoginForm"
 import TodoList from "../components/TodoList"
 import { AuthContext } from "../components/AuthContext"
 import { GoogleAuth } from "../components/Auth/GoogleAuth"
+import { KakaoAuth } from "../components/Auth/KakaoAuth"
 
 export default function Home(): JSX.Element {
   const { authToken, jwtInfo, logout } = useContext(AuthContext)
@@ -12,6 +13,7 @@ export default function Home(): JSX.Element {
         <div>
           <LocalLoginForm />
           <GoogleAuth />
+          <KakaoAuth />
         </div>
       )}
       {jwtInfo && <p className={"break-all"}> {JSON.stringify(jwtInfo)} </p>}

@@ -49,4 +49,25 @@ export class AuthService {
 
     return user;
   }
+
+  async validateUserKakao(rawUser) {
+    if (!rawUser) {
+      return null;
+    }
+
+    let user = await this.userService.getUserByAuthId(rawUser.auth_id);
+
+    if (!user) {
+      await this.userService.registerUserSocial({
+        email: rawUser.email,
+        username: rawUser.username,
+        auth_id: rawUser.auth_id,
+        auth_type: AuthType.Kakao,
+      });
+    }
+
+    user = await this.userService.getUserByAuthId(rawUser.auth_id);
+
+    return user;
+  }
 }

@@ -40,6 +40,24 @@ export class AuthController {
     };
   }
 
+  @UseGuards(AuthGuard('kakao'))
+  @Get('/kakao')
+  async withKakao() {}
+
+  @Get('/kakao/callback')
+  @UseGuards(AuthGuard('kakao'))
+  @Redirect(process.env.AUTH_REDIRECT_URL, 302)
+  async withKakaoCallback(
+    @Request() req,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const { access_token } = await this.authService.login(req.user);
+    response.cookie('jwt', access_token);
+    return {
+      url: process.env.AUTH_REDIRECT_URL,
+    };
+  }
+
   @UseGuards(JwtAuthGuard)
   @Get('/protected-with-jwt')
   protectedWithJwt() {

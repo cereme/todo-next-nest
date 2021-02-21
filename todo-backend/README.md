@@ -12,6 +12,7 @@ DB_PASS=root
 DB_NAME=postgres
 OAUTH_GOOGLE_CLIENT_ID=<google-client-id>
 OAUTH_GOOGLE_SECRET=<google-secret>
+OAUTH_KAKAO_CLIENT_ID=<kakao-client-id>
 AUTH_REDIRECT_URL=http://localhost:3000/auth
 JWT_SECRET=<jwt-secret>
 ```
