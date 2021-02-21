@@ -28,7 +28,11 @@ const AuthProvider = ({ children }): JSX.Element => {
   const [jwtInfo, setJwtInfo] = useState(null)
 
   useEffect(() => {
-    setAuthToken(localStorage.getItem("authToken"))
+    const token = localStorage.getItem("authToken")
+    if (token) {
+      setAuthToken(token)
+      setJwtInfo(jwt_decode(token))
+    }
   }, [])
 
   const value: AuthContextValue = {
