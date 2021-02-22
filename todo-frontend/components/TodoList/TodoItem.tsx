@@ -6,9 +6,10 @@ export type TodoItemProps = {
   title: string
   description: string
   id: number
+  userId: number
 }
 
-export default function TodoItem({ title, id, description }: TodoItemProps): JSX.Element {
+export default function TodoItem({ title, id, description, userId }: TodoItemProps): JSX.Element {
   const accordionDescription = useRef(null)
   const [descriptionHeight, setDescriptionHeight] = useState(0)
 
@@ -26,19 +27,19 @@ export default function TodoItem({ title, id, description }: TodoItemProps): JSX
   const enterEditMode = () => setEditable(true)
 
   const deleteTodoItem = async () => {
-    mutate("/todo", (data) => data.filter((e) => e.id !== id), false)
+    mutate(`/todo?owner=${userId}`, (data) => data.filter((e) => e.id !== id), false)
     await axios.delete(`/todo/${id}`)
-    mutate("/todo")
+    mutate(`/todo?owner=${userId}`)
   }
 
   const submitDescription = async () => {
     mutate(
-      "/todo",
+      `/todo?owner=${userId}`,
       (data) => data.map((e) => (e.id !== id ? e : { ...e, description: editedDescription })),
       false
     )
     await axios.patch(`/todo/${id}`, { description: editedDescription })
-    mutate("/todo")
+    mutate(`/todo?owner=${userId}`)
     exitEditMode()
   }
   const updateEditedDescription = (e) => setEditedDescription(e.target.value)

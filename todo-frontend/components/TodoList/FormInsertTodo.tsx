@@ -2,12 +2,20 @@ import axios from "axios"
 import { useState } from "react"
 import { mutate } from "swr"
 
-export default function FormInsertTodo(): JSX.Element {
+type FormInsertTodoProps = {
+  userId: number
+}
+
+export default function FormInsertTodo({ userId }: FormInsertTodoProps): JSX.Element {
   const [todoTitle, setTodoTitle] = useState("")
   const postTodoItem = async () => {
-    mutate("/todo", (data) => [...data, { title: todoTitle, id: -Math.random() }], false)
+    mutate(
+      `/todo?owner=${userId}`,
+      (data) => [...data, { title: todoTitle, id: -Math.random() }],
+      false
+    )
     await axios.post("http://localhost:7000/todo", { title: todoTitle })
-    mutate("/todo")
+    mutate(`/todo?owner=${userId}`)
     setTodoTitle("")
   }
 

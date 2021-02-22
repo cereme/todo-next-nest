@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import jwt_decode from "jwt-decode"
+import axios from "axios"
 
 interface JwtInfo {
   username: string
@@ -32,6 +33,7 @@ const AuthProvider = ({ children }): JSX.Element => {
     if (token) {
       setAuthToken(token)
       setJwtInfo(jwt_decode(token))
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`
     }
   }, [])
 

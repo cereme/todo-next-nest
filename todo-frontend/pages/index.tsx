@@ -16,9 +16,13 @@ export default function Home(): JSX.Element {
           <KakaoAuth />
         </div>
       )}
-      {jwtInfo && <p className={"break-all"}> {JSON.stringify(jwtInfo)} </p>}
-      {authToken && <button onClick={logout}>logout</button>}
-      <TodoList />
+      {jwtInfo && (
+        <div>
+          <p className={"break-all"}> {JSON.stringify(jwtInfo)} </p>
+          <button onClick={logout}>logout</button>
+          <TodoList userId={jwtInfo.id} username={jwtInfo.username} />
+        </div>
+      )}
     </div>
   )
 }

@@ -12,16 +12,20 @@ export class TodoService {
     private todoRepository: Repository<Todo>,
   ) {}
 
-  findAll(): Promise<Todo[]> {
-    return this.todoRepository.find({ order: { id: 'ASC' } });
+  findAll(ownerId): Promise<Todo[]> {
+    return this.todoRepository.find({
+      select: ['id', 'title', 'description', 'isFinished'],
+      where: { owner: { id: ownerId } },
+      order: { id: 'ASC' },
+    });
   }
 
   findOne(id: number): Promise<Todo> {
-    return this.todoRepository.findOne(id);
+    return this.todoRepository.findOne(id, { relations: ['owner'] });
   }
 
-  async create(dto: CreateTodoDTO): Promise<InsertResult> {
-    return this.todoRepository.insert(dto);
+  async create(dto: CreateTodoDTO, ownerId): Promise<InsertResult> {
+    return this.todoRepository.insert({ ...dto, owner: ownerId });
   }
 
   async updateOne(id: number, dto: UpdateTodoDTO): Promise<void> {

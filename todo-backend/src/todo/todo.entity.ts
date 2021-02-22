@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/user/user.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 @Entity()
 export class Todo {
@@ -13,4 +14,7 @@ export class Todo {
 
   @Column({ default: false })
   isFinished: boolean;
+
+  @ManyToOne(() => User, (user) => user.todoItems)
+  owner: User;
 }

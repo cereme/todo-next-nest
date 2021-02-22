@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, Index } from 'typeorm';
+import { Todo } from 'src/todo/todo.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  Index,
+  OneToMany,
+} from 'typeorm';
 
 export enum AuthType {
   Local = 'LOCAL',
@@ -36,4 +43,6 @@ export class User {
 
   @Column({ default: true })
   activated: boolean;
+
+  @OneToMany(() => Todo, (todo) => todo.owner) todoItems: Todo[];
 }
