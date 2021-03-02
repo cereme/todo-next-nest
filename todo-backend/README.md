@@ -5,6 +5,8 @@
 로컬에서 실행을 위해 todo-backend의 루트에 다음처럼 .env 파일을 생성해주세요.
 
 ```
+HOST=<domain, e.g. http://localhost:7000 or http://yourdomain.com >
+PORT=<port, e.g. 7000>
 DB_HOST=db
 DB_PORT=5432
 DB_USER=postgres
