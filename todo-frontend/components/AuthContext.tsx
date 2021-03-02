@@ -44,11 +44,13 @@ const AuthProvider = ({ children }): JSX.Element => {
       setAuthToken(token)
       setJwtInfo(jwt_decode(token))
       localStorage.setItem("authToken", token)
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`
     },
     logout: () => {
       setAuthToken(null)
       setJwtInfo(null)
       localStorage.removeItem("authToken")
+      axios.defaults.headers.common["Authorization"] = ""
     },
   }
 
