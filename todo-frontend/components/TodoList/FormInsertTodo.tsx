@@ -14,7 +14,7 @@ export default function FormInsertTodo({ userId }: FormInsertTodoProps): JSX.Ele
       (data) => [...data, { title: todoTitle, id: -Math.random() }],
       false
     )
-    await axios.post("http://localhost:7000/todo", { title: todoTitle })
+    await axios.post(`${process.env.API_ROOT}/todo`, { title: todoTitle })
     mutate(`/todo?owner=${userId}`)
     setTodoTitle("")
   }
