@@ -1,4 +1,4 @@
-module.exports = {
+const ormconfig = {
   type: 'postgres',
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
@@ -7,9 +7,14 @@ module.exports = {
   database: process.env.DB_NAME,
   synchronize: true,
   logging: false,
-  ssl: {
-    rejectUnauthorized: false,
-  },
   entities: ['dist/**/*.entity{.ts,.js}'],
   migrations: ['dist/**/*.migration{.ts,.js}'],
 };
+
+if (process.env.NODE_ENV === 'prod') {
+  ormconfig.ssl = {
+    rejectUnauthorized: false,
+  };
+}
+
+module.exports = ormconfig;
