@@ -29,14 +29,10 @@ export class AuthController {
   @Get('/google/callback')
   @UseGuards(AuthGuard('google'))
   @Redirect(process.env.AUTH_REDIRECT_URL, 302)
-  async withGoogleCallback(
-    @Request() req,
-    @Res({ passthrough: true }) response: Response,
-  ) {
+  async withGoogleCallback(@Request() req) {
     const { access_token } = await this.authService.login(req.user);
-    response.cookie('jwt', access_token);
     return {
-      url: process.env.AUTH_REDIRECT_URL,
+      url: `${process.env.AUTH_REDIRECT_URL}?jwt=${access_token}`,
     };
   }
 
@@ -47,14 +43,10 @@ export class AuthController {
   @Get('/kakao/callback')
   @UseGuards(AuthGuard('kakao'))
   @Redirect(process.env.AUTH_REDIRECT_URL, 302)
-  async withKakaoCallback(
-    @Request() req,
-    @Res({ passthrough: true }) response: Response,
-  ) {
+  async withKakaoCallback(@Request() req) {
     const { access_token } = await this.authService.login(req.user);
-    response.cookie('jwt', access_token);
     return {
-      url: process.env.AUTH_REDIRECT_URL,
+      url: `${process.env.AUTH_REDIRECT_URL}?jwt=${access_token}`,
     };
   }
 
